@@ -3,7 +3,7 @@
  * @Date: 2020-09-04 22:01:45
  * @Description: 
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-25 15:44:13
+ * @LastEditTime: 2022-02-26 18:43:27
  * @site: book.palxp.com / blog.palxp.com
  */
 const rExpress = require('express')
@@ -35,11 +35,11 @@ rRouter.get(api.GET_MP_INIT, mpService.init)
 rRouter.get(api.GET_MP_DOWNLOAD_FILE, mpService.download)
 rRouter.post(api.POST_MP_GATHER, mpService.gather)
 
-rRouter.get(api.GRAB_TEMP, spiderService.setTemps)
-rRouter.get(api.GRAB_COMP, spiderService.setComps)
-rRouter.get(api.GRAB_IMAGES, spiderService.setImages)
-rRouter.get(api.GRAB_TEMP_GD, spiderService.setTempsGaoDing)
-rRouter.get(api.GRAB_COMP_GD, spiderService.setCompsGaoDing)
+// rRouter.get(api.GRAB_TEMP, spiderService.setTemps)
+// rRouter.get(api.GRAB_COMP, spiderService.setComps)
+// rRouter.get(api.GRAB_IMAGES, spiderService.setImages)
+// rRouter.get(api.GRAB_TEMP_GD, spiderService.setTempsGaoDing)
+// rRouter.get(api.GRAB_COMP_GD, spiderService.setCompsGaoDing)
 rRouter.get(api.PROXY_GET, spiderService.proxyGet)
 
 rRouter.get(api.GET_TEMP_LIST, designService.fetchAll)
