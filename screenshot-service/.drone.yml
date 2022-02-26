@@ -72,14 +72,10 @@ steps:
         from_secret: PORT
       script:
         # - echo hello linux.
-        - docker exec screenshot_old /bin/bash -c 'pm2 delete screen_shot-service'
-        - docker exec screenshot_old /bin/bash -c 'cd /home/service/ && yarn'
-        - docker exec screenshot_old /bin/bash -c 'pm2 start /home/service/screen_shot-service.js'
-        - docker exec screenshot_old /bin/bash -c 'pm2 flush'
-        # - docker exec screenshot_old /bin/bash -c 'pm2 delete screen_shot-service'
-        # - docker exec screenshot_old /bin/bash -c 'cd /home/service/ && yarn'
-        # - docker exec screenshot_old /bin/bash -c 'pm2 start /home/service/screen_shot-service.js'
-        # - docker exec screenshot_old /bin/bash -c 'pm2 flush'
+        - docker exec screenshot /bin/bash -c 'pm2 delete screen_shot-service'
+        - docker exec screenshot /bin/bash -c 'cd /home/service/ && yarn'
+        - docker exec screenshot /bin/bash -c 'pm2 start /home/service/screen_shot-service.js'
+        - docker exec screenshot /bin/bash -c 'pm2 flush'
         # - docker exec screenshot /bin/bash -c 'node /home/service/screen_shot-service.js'
 
 trigger:
