@@ -3,13 +3,13 @@
  * @Date: 2021-07-22 01:09:44
  * @Description: 
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2021-08-30 17:46:19
+ * @LastEditTime: 2022-02-27 23:58:41
  * @site: book.palxp.com / blog.palxp.com
 -->
 <template>
   <div class="home">
     <div class="head">检视项目情况</div>
-    <el-row :gutter="12">
+    <!-- <el-row :gutter="12">
       <el-col :span="8">
         <el-card class="item" shadow="never">
           <iframe scrolling="no" src="http://app.palxp.com/stickyNotes"></iframe>
@@ -17,7 +17,7 @@
       </el-col>
       <el-col :span="8">
         <el-card class="item" shadow="hover">
-          <iframe src="http://m.palxp.com"></iframe>
+          <iframe src="http://m2.palxp.com"></iframe>
         </el-card>
       </el-col>
       <el-col :span="8">
@@ -25,7 +25,7 @@
           <iframe src="http://app.palxp.com"></iframe>
         </el-card>
       </el-col>
-    </el-row>
+    </el-row> -->
   </div>
 </template>
 
