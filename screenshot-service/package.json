@@ -15,7 +15,7 @@
     "serverstart2": "supervisor -w www ./www/main.js",
     "build:apidoc": "apidoc -i src/ -o _apidoc/",
     "publish": "sh script/publish.sh",
-    "publish-fast": "git add . && git commit -m 'build: auto publish' && git push && sh script/publish.sh"
+    "publish-fast": "git add . && git commit -m 'build: auto publish' && git push origin main && sh script/publish.sh"
   },
   "author": "ShawnPhang",
   "license": "ISC",

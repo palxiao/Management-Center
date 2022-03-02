@@ -3,7 +3,7 @@
  * @Date: 2021-09-30 14:47:22
  * @Description:  下载图片
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-28 21:12:06
+ * @LastEditTime: 2022-03-03 00:08:00
  * @site: book.palxp.com / blog.palxp.com
  */
 const puppeteer = require('puppeteer')
@@ -16,7 +16,7 @@ const saveScreenshot = async (url: string, { path, width, height, thumbPath }: a
     // 启动浏览器
     const browser = await puppeteer.launch({
       // headless: false,
-      // executablePath,
+      executablePath,
       ignoreHTTPSErrors: true, // 忽略https安全提示
       args: ['–no-first-run', '–single-process', '–disable-gpu', '–no-zygote', '–disable-dev-shm-usage', '--no-sandbox', '--disable-setuid-sandbox', `--window-size=${width},${height}`],
       defaultViewport: null,
