@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: 七牛NodeJs服务 - 9998
+name: 鉴权NodeJs服务 - 8090
 
 clone:
   disable: true
@@ -28,7 +28,7 @@ steps:
   - name: docker-move
     image: alpine
     environment:
-      warehouse_name: qiniu-service
+      warehouse_name: admin-service
       target: service
     volumes:
       - name: cache
@@ -71,9 +71,9 @@ steps:
         from_secret: PORT
       script:
         - echo hello linux.
-        - docker exec program /bin/bash -c 'pm2 delete qiniu-service'
+        - docker exec program /bin/bash -c 'pm2 delete admin-service'
         # - docker exec program /bin/bash -c 'pm2 serve --spa /home/web/FrogPunch 8001 --name FrogPunch'
-        - docker exec program /bin/bash -c 'pm2 start /home/service/qiniu-service.js'
+        - docker exec program /bin/bash -c 'pm2 start /home/service/admin-service.js'
         - docker exec program /bin/bash -c 'pm2 flush'
 
 trigger:
