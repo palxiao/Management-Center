@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: 鉴权NodeJs服务 - 8090
+name: 截图NodeJs服务 - 7001
 
 clone:
   disable: true
@@ -28,7 +28,7 @@ steps:
   - name: docker-move
     image: alpine
     environment:
-      warehouse_name: admin-service
+      warehouse_name: screen_shot-service
       target: service
     volumes:
       - name: cache
@@ -51,6 +51,7 @@ steps:
       - mkdir -p /home/$target
       - fi
       - mv -f ./server.js /home/$target/$warehouse_name.js
+      - mv -f ./package.json /home/$target/package.json
       # -- End --
       - rm -rf ../*
 
@@ -70,11 +71,12 @@ steps:
       port:
         from_secret: PORT
       script:
-        - echo hello linux.
-        - docker exec program /bin/bash -c 'pm2 delete admin-service'
-        # - docker exec program /bin/bash -c 'pm2 serve --spa /home/web/FrogPunch 8001 --name FrogPunch'
-        - docker exec program /bin/bash -c 'pm2 start /home/service/admin-service.js'
-        - docker exec program /bin/bash -c 'pm2 flush'
+        # - echo hello linux.
+        - docker exec screenshot /bin/bash -c 'pm2 delete screen_shot-service'
+        - docker exec screenshot /bin/bash -c 'cd /home/service/ && yarn'
+        - docker exec screenshot /bin/bash -c 'pm2 start /home/service/screen_shot-service.js'
+        - docker exec screenshot /bin/bash -c 'pm2 flush'
+        # - docker exec screenshot /bin/bash -c 'node /home/service/screen_shot-service.js'
 
 trigger:
   branch:
