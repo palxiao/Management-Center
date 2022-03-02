@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: 部署七牛服务端
+name: 七牛NodeJs服务 - 9998
 
 clone:
   disable: true
@@ -71,10 +71,10 @@ steps:
         from_secret: PORT
       script:
         - echo hello linux.
-        - docker exec stack /bin/bash -c 'pm2 delete qiniu-service'
-        # - docker exec stack /bin/bash -c 'pm2 serve --spa /home/web/FrogPunch 8001 --name FrogPunch'
-        - docker exec stack /bin/bash -c 'pm2 start /home/service/qiniu-service.js'
-        - docker exec stack /bin/bash -c 'pm2 flush'
+        - docker exec program /bin/bash -c 'pm2 delete qiniu-service'
+        # - docker exec program /bin/bash -c 'pm2 serve --spa /home/web/FrogPunch 8001 --name FrogPunch'
+        - docker exec program /bin/bash -c 'pm2 start /home/service/qiniu-service.js'
+        - docker exec program /bin/bash -c 'pm2 flush'
 
 trigger:
   branch:
@@ -89,7 +89,7 @@ volumes:
 
   - name: web_home
     host:
-      path: /data/docker_home
+      path: /data/docker-home
 
   - name: sshkeys
     host:
