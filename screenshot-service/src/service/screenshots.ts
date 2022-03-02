@@ -3,7 +3,7 @@
  * @Date: 2020-07-22 20:13:14
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-11 17:07:34
+ * @LastEditTime: 2022-02-28 22:14:59
  * @site: book.palxp.com / blog.palxp.com
  */
 const sql = require('../utils/widget/sql.ts')
@@ -30,19 +30,21 @@ module.exports = {
      * @apiParam {String} width (必传)视窗大小
      * @apiParam {String} height (必传)视窗大小
      * @apiParam {String} screenshot_url 可选
+     * @apiParam {String} type 可选, file正常截图返回，cover封面生成，默认file
      */
-    const { id, width, height, screenshot_url } = req.query
+    const { id, width, height, screenshot_url, type="file" } = req.query
     const defaultUrl = 'http://sudo.palxp.com/draw'
     const url = (screenshot_url || defaultUrl) + '?id='
-    const path = filePath + `screenshot-${id}.png` // .jpg` 
+    const path = filePath + `${id}-screenshot.png`
+    const thumbPath = filePath + `${id}-cover.jpg`
 
     if (id && width && height) {
       console.log(url + id);
-      queueRun(saveScreenshot, url + id, { width, height, path }).then(() => {
+      queueRun(saveScreenshot, url + id, { width, height, path, thumbPath }).then(() => {
         res.setHeader('Content-Type', 'image/jpg')
         // const stats = fs.statSync(path)
         // res.setHeader('Cache-Control', stats.size)
-        res.sendFile(path)
+        type === 'file' ? res.sendFile(path) : res.sendFile(thumbPath)
       }).catch((e: any) => {
         res.json({ code: 500, e })
       })

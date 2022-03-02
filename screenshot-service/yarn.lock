@@ -2236,6 +2236,11 @@ iferr@^0.1.5:
   resolved "https://registry.npm.taobao.org/iferr/download/iferr-0.1.5.tgz#c60eed69e6d8fdb6b3104a1fcbca1c192dc5b501"
   integrity sha1-xg7taebY/bazEEofy8ocGS3FtQE=
 
+images@3.2.3:
+  version "3.2.3"
+  resolved "https://registry.npmmirror.com/images/-/images-3.2.3.tgz#8e86421df163d9b3a60ee4d1dc7cd8205f2d2bd7"
+  integrity sha512-Ga7WPuo1krAdgE+pH641Q2NeAetJsNoU4wjC9DKGpSptWJ/Ljle6m2oA0XdO2c5ujy1Ups8UoH28ejR74m/vqQ==
+
 import-local@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/import-local/download/import-local-2.0.0.tgz#55070be38a5993cf18ef6db7e961f5bee5c5a09d"

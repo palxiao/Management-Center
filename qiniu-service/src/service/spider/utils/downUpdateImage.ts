@@ -3,7 +3,7 @@
  * @Date: 2022-01-05 10:48:38
  * @Description: 七牛入库
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-18 00:57:24
+ * @LastEditTime: 2022-02-28 22:30:59
  * @site: book.palxp.com / blog.palxp.com
  */
 const axiosHttp = require('../../../utils/http.ts')
@@ -13,19 +13,20 @@ const { QiNiu } = require('../../../../config.js')
 const qiniuPrefix = 'http://store.palxp.com/'
 const uploader = new Uploader(QiNiu) // 临时操作
 
-module.exports = async function downUpdateImage(imgUrl: string, headers: any, prefix: string = 'cache', space: string) {
+module.exports = async function downUpdateImage(imgUrl: string, headers: any = {}, prefix: string = 'cache', space: string, fullPath: string = '') {
   return new Promise(async (resolve) => {
     const resp = await axiosHttp.get(imgUrl, {
       headers,
       responseType: 'arraybuffer',
     })
     let result: any = {}
-    let imgName = imgUrl.split('?')[0].split('/').pop()
+    let imgName = fullPath || imgUrl.split('?')[0].split('/').pop()
     ;(imgName?.split('.') || []).length <= 1 && (imgName += '.png')
     console.log('资源入库:', imgName, '类型:', prefix)
     const buffer = Buffer.from(resp, 'binary')
-    const suffix = imgName?.split('.')[imgName?.split('.').length-1]
-    const resName = space ? `${prefix}/${space}/${new Date().getTime()}.${suffix}` : `${prefix}/${new Date().getTime()}/${imgName}`
+    const suffix = imgName?.split('.')[imgName?.split('.').length - 1]
+    const finalName = fullPath || `${new Date().getTime()}.${suffix}`
+    const resName = space ? `${prefix}/${space}/${finalName}` : `${prefix}/${new Date().getTime()}/${finalName}`
     result = await uploader.uploadFileByBuffer('cloud-design', resName, buffer)
     result.url = qiniuPrefix + result.key
     resolve(result)

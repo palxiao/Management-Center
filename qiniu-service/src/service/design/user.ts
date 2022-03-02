@@ -3,12 +3,15 @@
  * @Date: 2022-02-13 21:18:01
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-25 15:38:10
+ * @LastEditTime: 2022-02-28 22:29:18
  * @site: book.palxp.com / blog.palxp.com
  */
 const { getPics, prepareInit } = require('../qiniu/index.ts')
 const { QiNiu: QiNiuData } = require('../../configs.ts')
 const func2 = require('../../utils/mysql.ts')
+// const screenShotUrl = 'https://app.palxp.com:8886/api/screenshots?'
+const screenShotUrl = 'http://localhost:7001/api/screenshots?'
+const Img2QiNiu = require('../spider/utils/downUpdateImage.ts')
 
 function getQiNiuKey(url: string) {
   const arr = url.split('/')
@@ -50,6 +53,42 @@ module.exports = {
       })
     } else {
       res.json({ code: 200, msg: '没有id' })
+    }
+  },
+  updateDesign(req: any, res: any) {
+    const { id, title, data, temp_id: template_id, width, height } = req.body
+    const paramsArr = []
+    const textArr = []
+    const arr = []
+    const collecter: any = { title, data, template_id, width, height }
+    for (const key in collecter) {
+      if (Object.prototype.hasOwnProperty.call(collecter, key)) {
+        if (typeof collecter[key] !== 'undefined' && String(collecter[key])) {
+          arr.push(collecter[key])
+          paramsArr.push(`${key}=?`)
+          textArr.push(key)
+        }
+      }
+    }
+    if (id) {
+      arr.push(id)
+      const query = `UPDATE my_design SET ${paramsArr.toString()} WHERE id=?`
+      func2.connPool(query, arr, async (rows: any) => {
+        res.json({ code: 200, msg: '修改成功' })
+        const data = await func2.pConnPool(`SELECT width,height FROM my_design WHERE id = ${id}`)
+        const { url } = await Img2QiNiu(`${screenShotUrl}id=${id}&width=${data[0].width}&height=${data[0].height}&type=cover`, null, 'cover', 'user', `${id}-cover.jpg`)
+        func2.connPool(`UPDATE my_design SET cover='${url}' WHERE id=${id}`, [], () => {})
+      })
+    } else if (title && data && template_id && width && height) {
+      const query = `INSERT INTO my_design(${textArr.toString()}) VALUES(?,?,?,?,?)`
+      func2.connPool(query, arr, async (rows: any) => {
+        const data = await func2.pConnPool('SELECT id,width,height FROM my_design ORDER BY id desc LIMIT 1')
+        res.send({ code: 200, msg: '新增作品', id: data[0].id })
+        const { url } = await Img2QiNiu(`${screenShotUrl}id=${data[0].id}&width=${data[0].width}&height=${data[0].height}&type=cover`, null, 'cover', 'user', `${data[0].id}-cover.jpg`)
+        func2.connPool(`UPDATE my_design SET cover='${url}' WHERE id=${data[0].id}`, [], () => {})
+      })
+    } else {
+      res.json({ code: 0, msg: '缺少参数请检查' })
     }
   },
   async deleteUserDesign(req: any, res: any) {

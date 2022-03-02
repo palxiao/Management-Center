@@ -3,20 +3,20 @@
  * @Date: 2021-09-30 14:47:22
  * @Description:  下载图片
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-11 18:46:12
+ * @LastEditTime: 2022-02-28 21:12:06
  * @site: book.palxp.com / blog.palxp.com
  */
 const puppeteer = require('puppeteer')
-// const images = require('images')
+const images = require('images')
 const { executablePath } = require('../configs.ts')
 const forceTimeOut = 60000 // 强制超时时间
 
-const saveScreenshot = async (url: string, { path, width, height }: any) => {
+const saveScreenshot = async (url: string, { path, width, height, thumbPath }: any) => {
   return new Promise(async (resolve: Function) => {
     // 启动浏览器
     const browser = await puppeteer.launch({
       // headless: false,
-      executablePath,
+      // executablePath,
       ignoreHTTPSErrors: true, // 忽略https安全提示
       args: ['–no-first-run', '–single-process', '–disable-gpu', '–no-zygote', '–disable-dev-shm-usage', '--no-sandbox', '--disable-setuid-sandbox', `--window-size=${width},${height}`],
       defaultViewport: null,
@@ -37,15 +37,16 @@ const saveScreenshot = async (url: string, { path, width, height }: any) => {
       // 关闭浏览器
       await browser.close()
       // 压缩图片
-      // try {
-      //   // 在(10,10)处绘制Logo
-      //   //.draw(images('logo.png'), 10, 10) //Drawn logo at coordinates (10,10)
-      //   let tinyJpg = images(path).encode('jpg', { quality: 50 })
-      //   images(tinyJpg).save(path)
-      //   tinyJpg = null
-      // } catch (err) {
-      //   console.log(err)
-      // }
+      try {
+        // 在(10,10)处绘制Logo
+        //.draw(images('logo.png'), 10, 10) //Drawn logo at coordinates (10,10)
+        // let tinyJpg = images(path).encode('jpg', { quality: 50 })
+        // images(tinyJpg).save(path)
+        images(path).size(300).save(thumbPath, { quality: 70 })
+        // tinyJpg = null
+      } catch (err) {
+        console.log(err)
+      }
       // console.log('浏览器已释放');
       clearTimeout(regulators)
       resolve()

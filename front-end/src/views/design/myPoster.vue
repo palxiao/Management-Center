@@ -3,7 +3,7 @@
  * @Date: 2021-08-26 09:27:27
  * @Description: 
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-25 15:45:51
+ * @LastEditTime: 2022-03-01 15:15:46
  * @site: book.palxp.com / blog.palxp.com
 -->
 <template>
@@ -39,8 +39,11 @@ export default defineComponent({
     const page = ref({ index: 1, totalNum: 0 })
 
     const load = () => {
-      api.getMyDesign().then((res: any) => {
-        listData.value = res.list
+      api.getMyDesign({ page: page.value.index }).then((res: any) => {
+        listData.value = res.list.map((x: any) => {
+          x.cover += `?r=${Math.random()}`
+          return x
+        })
         page.value.totalNum = res.total
       })
     }
@@ -93,6 +96,8 @@ export default defineComponent({
   // flex-wrap: wrap;
 }
 .cover-box {
-  min-height: 100px;
+  width: 100%;
+  height: 32vh;
+  padding: 0.5rem 0.2rem 0 0.2rem;
 }
 </style>

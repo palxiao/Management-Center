@@ -3,7 +3,7 @@
  * @Date: 2021-12-31 11:09:30
  * @Description: Type: 0 模板，1 文字组件
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-25 00:11:45
+ * @LastEditTime: 2022-03-01 14:43:22
  * @site: book.palxp.com / blog.palxp.com
  */
 const func = require('../../utils/mysql.ts')
@@ -31,7 +31,7 @@ module.exports = {
   fetchAllMyDesign(req: any, res: any) {
     const { page = 1, pageSize = 20, order = 'desc' } = req.query
     const jumpNum = (+page - 1) * +pageSize
-    func.connPool(`SELECT id,cover,title FROM my_design order by created_time ${order} LIMIT ${jumpNum},${pageSize}`, [], async (rows: any) => {
+    func.connPool(`SELECT id,cover,title,width,height FROM my_design order by created_time ${order} LIMIT ${jumpNum},${pageSize}`, [], async (rows: any) => {
       const total = await func.pConnPool(`select count(id) from my_design`)
       res.json({ code: 200, msg: 'ok', result: { list: rows, total: total[0]['count(id)'] } })
     })
@@ -115,39 +115,7 @@ module.exports = {
       res.json({ code: 0, msg: 'id为空或没有data数据' })
     }
   },
-  updateDesign(req: any, res: any) {
-    const { id, title, cover, data, temp_id: template_id } = req.body
-    const paramsArr = []
-    const textArr = []
-    const arr = []
-    const collecter: any = { title, cover, data, template_id }
-    for (const key in collecter) {
-      if (Object.prototype.hasOwnProperty.call(collecter, key)) {
-        if (typeof collecter[key] !== 'undefined' && String(collecter[key])) {
-          arr.push(collecter[key])
-          paramsArr.push(`${key}=?`)
-          textArr.push(key)
-        }
-      }
-    }
-    if (id) {
-      arr.push(id)
-      const query = `UPDATE my_design SET ${paramsArr.toString()} WHERE id=?`
-      func.connPool(query, arr, (rows: any) => {
-        res.json({ code: 200, msg: '修改成功' })
-      })
-    } else {
-      if (textArr.length < 3) {
-        res.json({ code: 0, msg: '缺少参数请检查' })
-      } else {
-        const query = `INSERT INTO my_design(${textArr.toString()}) VALUES(?,?,?)`
-        func.connPool(query, arr, async (rows: any) => {
-          const data = await func.pConnPool('SELECT id FROM my_design ORDER BY id desc LIMIT 1')
-          res.send({ code: 200, msg: '新增作品', id: data[0].id })
-        })
-      }
-    }
-  },
+  
   updateMaterial(req: any, res: any) {
     const { id, state, title } = req.body
     const paramsArr = []
