@@ -1,3 +1,4 @@
+
 const express = require('express')
 const bodyParser = require('body-parser')
 // const fs = require('fs')
@@ -17,9 +18,9 @@ app.all('*', (req: any, res: any, next: any) => {
     next();
 });
 
-app.use('/static', express.static('static'))
+// app.use('/static', express.static('static'))
 app.use((req: any, res: any, next: any) => {
-    console.log(req.path)
+    // console.log(req.path)
     next()
 })
 

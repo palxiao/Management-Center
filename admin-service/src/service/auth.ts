@@ -3,12 +3,12 @@
  * @Date: 2021-08-24 11:54:27
  * @Description: 
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2021-08-25 14:13:54
+ * @LastEditTime: 2022-03-02 23:34:26
  * @site: book.palxp.com / blog.palxp.com
  */
-const sql = require('../utils/widget/sql.ts')
-const func = require('../utils/mysql.ts')
-const $utils = require('../utils/index.ts')
+// const sql = require('../utils/widget/sql.ts')
+// const func = require('../utils/mysql.ts')
+// const $utils = require('../utils/index.ts')
 
 module.exports = {
   login(req: any, res: any) {
