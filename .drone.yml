@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: 截图NodeJs服务 - 7001
+name: 截图NodeJs服务 - 7001 
 
 clone:
   disable: true
