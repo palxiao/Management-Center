@@ -1,6 +1,6 @@
 kind: pipeline
 type: docker
-name: 部署admin后台
+name: admin后台 - 8003 - admin.palxp.com
 
 clone:
   disable: true
@@ -70,10 +70,10 @@ steps:
         from_secret: PORT
       script:
         - echo hello linux.
-        - docker exec stack /bin/bash -c 'pm2 delete Admin'
-        - docker exec stack /bin/bash -c 'pm2 serve --spa /home/web/Admin 8003 --name Admin'
-        # - docker exec stack /bin/bash -c 'pm2 start /home/service/FrogPunch-BackEnd.js'
-        - docker exec stack /bin/bash -c 'pm2 flush'
+        - docker exec program /bin/bash -c 'pm2 delete Admin'
+        - docker exec program /bin/bash -c 'pm2 serve --spa /home/web/Admin 8003 --name Admin'
+        # - docker exec program /bin/bash -c 'pm2 start /home/service/FrogPunch-BackEnd.js'
+        - docker exec program /bin/bash -c 'pm2 flush'
 
 trigger:
   branch:
@@ -88,7 +88,7 @@ volumes:
 
   - name: web_home
     host:
-      path: /data/docker_home
+      path: /data/docker-home
 
   - name: sshkeys
     host:
