@@ -3,7 +3,7 @@
  * @Date: 2021-09-30 14:47:22
  * @Description:  下载图片
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-03 00:08:00
+ * @LastEditTime: 2022-03-03 10:37:38
  * @site: book.palxp.com / blog.palxp.com
  */
 const puppeteer = require('puppeteer')
@@ -32,7 +32,7 @@ const saveScreenshot = async (url: string, { path, width, height, thumbPath }: a
       deviceScaleFactor: 1,
     })
     await page.exposeFunction('loadFinishToInject', async () => {
-      console.log('-> 开始截图')
+      // console.log('-> 开始截图')
       await page.screenshot({ path })
       // 关闭浏览器
       await browser.close()
@@ -42,7 +42,7 @@ const saveScreenshot = async (url: string, { path, width, height, thumbPath }: a
         //.draw(images('logo.png'), 10, 10) //Drawn logo at coordinates (10,10)
         // let tinyJpg = images(path).encode('jpg', { quality: 50 })
         // images(tinyJpg).save(path)
-        images(path).size(300).save(thumbPath, { quality: 70 })
+        thumbPath && images(path).size(300).save(thumbPath, { quality: 70 })
         // tinyJpg = null
       } catch (err) {
         console.log(err)

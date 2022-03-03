@@ -3,7 +3,7 @@
  * @Date: 2020-07-22 20:13:14
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-28 22:14:59
+ * @LastEditTime: 2022-03-03 10:37:15
  * @site: book.palxp.com / blog.palxp.com
  */
 const sql = require('../utils/widget/sql.ts')
@@ -36,7 +36,7 @@ module.exports = {
     const defaultUrl = 'http://sudo.palxp.com/draw'
     const url = (screenshot_url || defaultUrl) + '?id='
     const path = filePath + `${id}-screenshot.png`
-    const thumbPath = filePath + `${id}-cover.jpg`
+    const thumbPath = type === 'cover' ? filePath + `${id}-cover.jpg` : null
 
     if (id && width && height) {
       console.log(url + id);
