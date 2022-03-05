@@ -3,7 +3,7 @@
  * @Date: 2020-07-22 20:13:14
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-03 10:37:15
+ * @LastEditTime: 2022-03-05 21:31:39
  * @site: book.palxp.com / blog.palxp.com
  */
 const sql = require('../utils/widget/sql.ts')
@@ -31,8 +31,10 @@ module.exports = {
      * @apiParam {String} height (必传)视窗大小
      * @apiParam {String} screenshot_url 可选
      * @apiParam {String} type 可选, file正常截图返回，cover封面生成，默认file
+     * @apiParam {String} size 可选, 按比例缩小到宽度
+     * @apiParam {String} quality 可选, 质量
      */
-    const { id, width, height, screenshot_url, type="file" } = req.query
+    const { id, width, height, screenshot_url, type="file", size, quality } = req.query
     const defaultUrl = 'http://sudo.palxp.com/draw'
     const url = (screenshot_url || defaultUrl) + '?id='
     const path = filePath + `${id}-screenshot.png`
@@ -40,7 +42,7 @@ module.exports = {
 
     if (id && width && height) {
       console.log(url + id);
-      queueRun(saveScreenshot, url + id, { width, height, path, thumbPath }).then(() => {
+      queueRun(saveScreenshot, url + id, { width, height, path, thumbPath, size, quality }).then(() => {
         res.setHeader('Content-Type', 'image/jpg')
         // const stats = fs.statSync(path)
         // res.setHeader('Cache-Control', stats.size)

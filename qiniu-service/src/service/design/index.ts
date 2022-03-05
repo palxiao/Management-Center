@@ -3,7 +3,7 @@
  * @Date: 2021-12-31 11:09:30
  * @Description: Type: 0 模板，1 文字组件
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-01 14:43:22
+ * @LastEditTime: 2022-03-05 21:27:13
  * @site: book.palxp.com / blog.palxp.com
  */
 const func = require('../../utils/mysql.ts')
@@ -11,6 +11,8 @@ const user = require('./user.ts')
 // const fontmin = require('./utils/getFont.ts')
 const { prepareInit } = require('../qiniu/index.ts')
 const { QiNiu: QiNiuData } = require('../../configs.ts')
+const screenShotUrl = 'http://app.palxp.com:7001/api/screenshots?'
+const Img2QiNiu = require('../spider/utils/downUpdateImage.ts')
 
 function getQiNiuKey(url: string) {
   const arr = url.split('/')
@@ -92,7 +94,7 @@ module.exports = {
     }
   },
 
-  updateTemplate(req: any, res: any) {
+  async updateTemplate(req: any, res: any) {
     const { id, state, title, content: data, width, height, type = 0 } = req.body
     const paramsArr = []
     const arr = []
@@ -108,6 +110,11 @@ module.exports = {
     arr.push(id)
     const query = `UPDATE ${type == 0 ? 'template' : 'component'} SET ${paramsArr.toString()} WHERE id=?`
     if (id) {
+      const data = await func.pConnPool(`SELECT width,height,cover FROM template WHERE id = ${id}`)
+      const coverName = data[0].cover.split('/')[data[0].cover.split('/').length - 1]
+      const coverGroup = data[0].cover.split('/')[data[0].cover.split('/').length - 2]
+      console.log(coverName, coverGroup)
+      // const { url } = await Img2QiNiu(`${screenShotUrl}id=${id}&width=${data[0].width}&height=${data[0].height}&type=cover`, null, 'cover', 'user', `${id}-cover.jpg`)
       func.connPool(query, arr, (rows: any) => {
         res.json({ code: 200, msg: '修改成功' })
       })
@@ -115,7 +122,7 @@ module.exports = {
       res.json({ code: 0, msg: 'id为空或没有data数据' })
     }
   },
-  
+
   updateMaterial(req: any, res: any) {
     const { id, state, title } = req.body
     const paramsArr = []

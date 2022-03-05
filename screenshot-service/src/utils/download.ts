@@ -3,7 +3,7 @@
  * @Date: 2021-09-30 14:47:22
  * @Description:  下载图片
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-03 10:37:38
+ * @LastEditTime: 2022-03-05 21:32:15
  * @site: book.palxp.com / blog.palxp.com
  */
 const puppeteer = require('puppeteer')
@@ -11,7 +11,7 @@ const images = require('images')
 const { executablePath } = require('../configs.ts')
 const forceTimeOut = 60000 // 强制超时时间
 
-const saveScreenshot = async (url: string, { path, width, height, thumbPath }: any) => {
+const saveScreenshot = async (url: string, { path, width, height, thumbPath, size, quality }: any) => {
   return new Promise(async (resolve: Function) => {
     // 启动浏览器
     const browser = await puppeteer.launch({
@@ -42,7 +42,10 @@ const saveScreenshot = async (url: string, { path, width, height, thumbPath }: a
         //.draw(images('logo.png'), 10, 10) //Drawn logo at coordinates (10,10)
         // let tinyJpg = images(path).encode('jpg', { quality: 50 })
         // images(tinyJpg).save(path)
-        thumbPath && images(path).size(300).save(thumbPath, { quality: 70 })
+        thumbPath &&
+          images(path)
+            .size(size || 300)
+            .save(thumbPath, { quality: quality || 70 })
         // tinyJpg = null
       } catch (err) {
         console.log(err)

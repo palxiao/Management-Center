@@ -3,7 +3,7 @@
  * @Date: 2022-02-13 21:18:01
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-03 10:35:00
+ * @LastEditTime: 2022-03-05 21:18:48
  * @site: book.palxp.com / blog.palxp.com
  */
 const { getPics, prepareInit } = require('../qiniu/index.ts')
@@ -56,7 +56,6 @@ module.exports = {
     }
   },
   updateDesign(req: any, res: any) {
-    // simple简单储存模式，不会生成图片
     const { id, title, data, temp_id: template_id = '0', width, height } = req.body
     const paramsArr = []
     const textArr = []
