@@ -3,7 +3,7 @@
  * @Date: 2021-09-30 14:47:22
  * @Description:  下载图片
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-05 21:32:15
+ * @LastEditTime: 2022-03-05 22:09:29
  * @site: book.palxp.com / blog.palxp.com
  */
 const puppeteer = require('puppeteer')
@@ -44,7 +44,7 @@ const saveScreenshot = async (url: string, { path, width, height, thumbPath, siz
         // images(tinyJpg).save(path)
         thumbPath &&
           images(path)
-            .size(size || 300)
+            .size(+size || 300)
             .save(thumbPath, { quality: quality || 70 })
         // tinyJpg = null
       } catch (err) {
