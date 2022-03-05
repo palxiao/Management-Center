@@ -3,7 +3,7 @@
  * @Date: 2021-12-31 11:09:30
  * @Description: Type: 0 模板，1 文字组件
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-05 21:27:13
+ * @LastEditTime: 2022-03-05 21:40:48
  * @site: book.palxp.com / blog.palxp.com
  */
 const func = require('../../utils/mysql.ts')
@@ -114,7 +114,8 @@ module.exports = {
       const coverName = data[0].cover.split('/')[data[0].cover.split('/').length - 1]
       const coverGroup = data[0].cover.split('/')[data[0].cover.split('/').length - 2]
       console.log(coverName, coverGroup)
-      // const { url } = await Img2QiNiu(`${screenShotUrl}id=${id}&width=${data[0].width}&height=${data[0].height}&type=cover`, null, 'cover', 'user', `${id}-cover.jpg`)
+      const { url } = await Img2QiNiu(`${screenShotUrl}tempid=${id}&width=${data[0].width}&height=${data[0].height}&type=cover&size=400`, null, 'cover', coverGroup, coverName)
+      console.log(url);
       func.connPool(query, arr, (rows: any) => {
         res.json({ code: 200, msg: '修改成功' })
       })
