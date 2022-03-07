@@ -3,7 +3,7 @@
  * @Date: 2021-08-29 15:28:55
  * @Description: 
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-22 15:55:41
+ * @LastEditTime: 2022-03-07 15:25:46
  * @site: book.palxp.com / blog.palxp.com
 -->
 <template>
@@ -11,7 +11,7 @@
   <state-choosee @change="typeChange" />
   <div class="imgs__wrap">
     <el-card v-for="(item, i) in listData" :key="i + 'i'" shadow="hover" :body-style="{ padding: '0px', position: 'relative' }">
-      <el-image class="cover-box" :src="item.cover" :preview-src-list="[item.cover]" fit="contain"></el-image>
+      <el-image class="cover-box" :src="item.cover" :preview-src-list="[item.cover + '?r=' + Math.random()]" fit="contain"></el-image>
       <div style="padding: 4px 14px">
         <div class="line-clamp-1" v-if="item.title">{{ item.title }}</div>
         <div class="bottom">
