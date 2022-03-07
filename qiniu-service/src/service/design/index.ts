@@ -3,7 +3,7 @@
  * @Date: 2021-12-31 11:09:30
  * @Description: Type: 0 模板，1 文字组件
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-05 22:31:20
+ * @LastEditTime: 2022-03-07 15:41:40
  * @site: book.palxp.com / blog.palxp.com
  */
 const func = require('../../utils/mysql.ts')
@@ -113,7 +113,7 @@ module.exports = {
       const data = await func.pConnPool(`SELECT width,height,cover FROM template WHERE id = ${id}`)
       const coverName = data[0].cover.split('/')[data[0].cover.split('/').length - 1]
       const coverGroup = data[0].cover.split('/')[data[0].cover.split('/').length - 2]
-      console.log(coverName, coverGroup)
+      // console.log(coverName, coverGroup)
       setTimeout(async () => {
         const { url } = await Img2QiNiu(`${screenShotUrl}tempid=${id}&width=${data[0].width}&height=${data[0].height}&type=cover&size=600&quality=75`, null, 'cover', coverGroup, coverName)
         console.log(url)
