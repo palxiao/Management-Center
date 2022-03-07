@@ -1,11 +1,12 @@
 kind: pipeline
 type: docker
-name: admin后台 - 8003 - admin.palxp.com
+name: 七牛NodeJs服务 - 9998
 
 clone:
   disable: true
 
 steps:
+
   - name: docker-clone
     pull: if-not-exists
     image: alpine/git
@@ -27,8 +28,8 @@ steps:
   - name: docker-move
     image: alpine
     environment:
-      warehouse_name: Admin
-      target: web
+      warehouse_name: qiniu-service
+      target: service
     volumes:
       - name: cache
         path: /cache
@@ -40,16 +41,16 @@ steps:
       - unzip dist.zip
       - cd dist
       # -- Web --
-      - if [ ! -d "/home/$target/$warehouse_name/" ]; then
-      - mkdir -p /home/$target/$warehouse_name
-      - fi
-      - rm -rf /home/$target/$warehouse_name/*
-      - mv -f ./* /home/$target/$warehouse_name
-      # -- Node --
-      # - if [ ! -d "/home/$target/" ]; then
-      # - mkdir -p /home/$target
+      # - if [ ! -d "/home/$target/$warehouse_name/" ]; then
+      # - mkdir -p /home/$target/$warehouse_name
       # - fi
-      # - mv -f ./server.js /home/$target/$warehouse_name.js
+      # - rm -rf /home/$target/$warehouse_name/*
+      # - mv -f ./* /home/$target/$warehouse_name
+      # -- Node --
+      - if [ ! -d "/home/$target/" ]; then
+      - mkdir -p /home/$target
+      - fi
+      - mv -f ./server.js /home/$target/$warehouse_name.js
       # -- End --
       - rm -rf ../*
 
@@ -70,9 +71,9 @@ steps:
         from_secret: PORT
       script:
         - echo hello linux.
-        - docker exec program /bin/bash -c 'pm2 delete Admin'
-        - docker exec program /bin/bash -c 'pm2 serve --spa /home/web/Admin 8003 --name Admin'
-        # - docker exec program /bin/bash -c 'pm2 start /home/service/FrogPunch-BackEnd.js'
+        - docker exec program /bin/bash -c 'pm2 delete qiniu-service'
+        # - docker exec program /bin/bash -c 'pm2 serve --spa /home/web/FrogPunch 8001 --name FrogPunch'
+        - docker exec program /bin/bash -c 'pm2 start /home/service/qiniu-service.js'
         - docker exec program /bin/bash -c 'pm2 flush'
 
 trigger:
