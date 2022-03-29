@@ -3,7 +3,7 @@
  * @Date: 2022-01-04 10:04:20
  * @Description: 图片素材爬取
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-21 23:39:33
+ * @LastEditTime: 2022-03-23 00:03:21
  * @site: book.palxp.com / blog.palxp.com
  */
 const axiosImage = require('../../../utils/http.ts')
@@ -103,8 +103,8 @@ module.exports = {
           results.push({
             thumb: url,
             title: x.title,
-            width: x.preview.width,
-            height: x.preview.height,
+            // width: x.preview.width,
+            // height: x.preview.height,
             original: x.id,
             type: x.type,
           })
@@ -124,7 +124,9 @@ module.exports = {
       const results: any = JSON.parse(res.content)
       if (results.model && results.model.url) {
         const { url }: any = await downUpdateImage(results.model.url, headers, 'material', 'gd-' + id)
-        resolve(url)
+        const { type, height, width, colors } = results.model
+        const model = JSON.stringify({ colors })
+        resolve({ url, type, height, width, model })
       } else {
         resolve('')
       }

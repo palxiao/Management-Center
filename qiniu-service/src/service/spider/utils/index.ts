@@ -3,7 +3,7 @@
  * @Date: 2022-02-18 16:31:19
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-20 15:36:36
+ * @LastEditTime: 2022-03-29 18:31:08
  * @site: book.palxp.com / blog.palxp.com
  */
 interface Matrix {
@@ -36,13 +36,49 @@ exports.getTextEffects = (data: any = []) => {
   const arr = []
   try {
     for (const iterator of data) {
-        const known = ['stroke', 'shadow', 'filling']
-        const obj: any = {}
-        for (let i = 0; i < known.length; i++) {
-            iterator[known[i]].enable &&( obj[known[i]] = iterator[known[i]])
-        }
+      const known = ['stroke', 'shadow', 'filling']
+      const obj: any = {}
+      for (let i = 0; i < known.length; i++) {
+        iterator[known[i]].enable && (obj[known[i]] = iterator[known[i]])
+      }
       arr.push(obj)
     }
   } catch (e) {}
-  return arr
+  return arr.length > 0 ? arr : undefined
+}
+
+const { fonts: FONTS } = require('./data/Fonts-Data')
+const { fontClass } = require('./data/Default-Font')
+exports.getGDFont = async (fontFamily: any) => {
+  const localFonts = FONTS || []
+  const font = JSON.parse(JSON.stringify(fontClass))
+  let gdFont = localFonts.find((font: any) => font.name === fontFamily)
+  if (!gdFont) {
+    const searchFallback: any = await searchFonts(fontFamily)
+    for (let i = 0; i < searchFallback.length; i++) {
+      const { dest } = searchFallback[i]
+      gdFont = localFonts.find((font: any) => font.name === dest)
+      if (gdFont) {
+        break
+      }
+    }
+  }
+  if (gdFont) {
+    font.id = gdFont.id
+    font.value = gdFont.name
+    font.url = gdFont.url
+    font.alias = gdFont.alias
+  }
+
+  return font
+}
+
+// 请求稿定不知名接口获得字体
+function searchFonts(fontFamily: any) {
+  const http = require('../../../utils/http')
+  return new Promise((resolve) => {
+    http.get('https://www.gaoding.com/api/v2/font-fallbacks', { params: { font_name: fontFamily } }).then((resp: any) => {
+      resolve(resp)
+    })
+  })
 }

@@ -1,9 +1,9 @@
 /*
  * @Author: ShawnPhang
  * @Date: 2020-09-04 22:01:45
- * @Description: 
+ * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-26 18:43:27
+ * @LastEditTime: 2022-03-28 23:26:40
  * @site: book.palxp.com / blog.palxp.com
  */
 const rExpress = require('express')
@@ -35,18 +35,21 @@ rRouter.get(api.GET_MP_INIT, mpService.init)
 rRouter.get(api.GET_MP_DOWNLOAD_FILE, mpService.download)
 rRouter.post(api.POST_MP_GATHER, mpService.gather)
 
-// rRouter.get(api.GRAB_TEMP, spiderService.setTemps)
-// rRouter.get(api.GRAB_COMP, spiderService.setComps)
-// rRouter.get(api.GRAB_IMAGES, spiderService.setImages)
-// rRouter.get(api.GRAB_TEMP_GD, spiderService.setTempsGaoDing)
-// rRouter.get(api.GRAB_COMP_GD, spiderService.setCompsGaoDing)
+if (process.env.NODE_ENV === 'development') {
+  rRouter.get(api.GRAB_TEMP, spiderService.setTemps)
+  rRouter.get(api.GRAB_COMP, spiderService.setComps)
+  rRouter.get(api.GRAB_IMAGES, spiderService.setImages)
+  rRouter.get(api.GRAB_TEMP_GD, spiderService.setTempsGaoDing)
+  rRouter.get(api.GRAB_COMP_GD, spiderService.setCompsGaoDing)
+}
+
 rRouter.get(api.PROXY_GET, spiderService.proxyGet)
 
 rRouter.get(api.GET_TEMP_LIST, designService.fetchAll)
 rRouter.get(api.GET_IMG_LIST, designService.fetchAllImages)
 rRouter.post(api.DELETE_IMG, designService.deletePhoto)
-rRouter.get(api.GET_CATE_LIST , designService.getCategory)
-rRouter.get(api.GET_TEMP_DETAIL , designService.getTemplate)
+rRouter.get(api.GET_CATE_LIST, designService.getCategory)
+rRouter.get(api.GET_TEMP_DETAIL, designService.getTemplate)
 rRouter.post(api.DELETE_TEMP, designService.deleteTemplate)
 rRouter.post(api.DELETE_MATERIAL, designService.deleteMaterial)
 rRouter.post(api.UPDATE_TEMP, designService.updateTemplate)

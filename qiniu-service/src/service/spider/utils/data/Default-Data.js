@@ -3,9 +3,10 @@
  * @Date: 2021-12-30 17:41:15
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-01-13 17:13:48
+ * @LastEditTime: 2022-03-29 17:17:33
  * @site: book.palxp.com / blog.palxp.com
  */
+const { fontClass } = require('./Default-Font')
 module.exports = {
   image: {
     name: '图片',
@@ -41,10 +42,7 @@ module.exports = {
     lineHeight: 1.5,
     letterSpacing: 0,
     fontSize: 24,
-    fontClass: {
-      name: '默认字体',
-      value: '',
-    },
+    fontClass,
     fontWeight: 'normal',
     fontStyle: 'normal',
     writingMode: '',
@@ -61,6 +59,28 @@ module.exports = {
       minWidth: 0,
       minHeight: 0,
       dir: 'horizontal',
+    },
+  },
+  svg: {
+    name: '矢量图形',
+    type: 'w-svg',
+    uuid: -1,
+    width: 100,
+    height: 100,
+    colors: [],
+    left: 0,
+    top: 0,
+    transform: '',
+    radius: 0,
+    opacity: 1,
+    parent: '-1',
+    svgUrl: '',
+    setting: [],
+    record: {
+      width: 0,
+      height: 0,
+      minWidth: 10,
+      minHeight: 10,
     },
   },
   group: {

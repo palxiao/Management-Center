@@ -3,7 +3,7 @@
  * @Date: 2020-09-04 22:01:45
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-26 18:43:11
+ * @LastEditTime: 2022-03-28 23:25:49
  * @site: book.palxp.com / blog.palxp.com
  */
 const path = '/pic'
@@ -33,11 +33,11 @@ module.exports = {
   GET_MP_DOWNLOAD_FILE: mp + '/download',
   POST_MP_GATHER: mp + '/gather',
   // 爬虫程序
-  // GRAB_TEMP: spider + 'temp',
-  // GRAB_COMP: spider + 'comp',
-  // GRAB_IMAGES: spider + 'img',
-  // GRAB_TEMP_GD: spider + 'temp/gaoding',
-  // GRAB_COMP_GD: spider + 'comp/gaoding',
+  GRAB_TEMP: spider + 'temp',
+  GRAB_COMP: spider + 'comp',
+  GRAB_IMAGES: spider + 'img',
+  GRAB_TEMP_GD: spider + 'temp/gaoding',
+  GRAB_COMP_GD: spider + 'comp/gaoding',
   PROXY_GET: spider + 'cors',
   // 设计器接口
   GET_TEMP_LIST: design + 'list',

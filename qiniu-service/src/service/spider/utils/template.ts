@@ -3,13 +3,13 @@
  * @Date: 2022-01-04 09:17:49
  * @Description: 爬取模板/组件
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-21 16:35:56
+ * @LastEditTime: 2022-03-29 18:33:37
  * @site: book.palxp.com / blog.palxp.com
  */
 
 const downUpdateImage = require('./downUpdateImage.ts')
 const tools = require('./index.ts')
-let { image: imageDefault, text: textDefault, group: groupDefault, page: pageDefault, fontClass: fontDefault } = require('./Default-Data')
+let { image: imageDefault, text: textDefault, svg: svgDefault, group: groupDefault, page: pageDefault, fontClass: fontDefault } = require('./data/Default-Data')
 
 const http = require('../../../utils/http.ts')
 const url = 'https://bigesj.com/new/design/groupRule/'
@@ -110,15 +110,21 @@ async function addComponentsGD(arr: any = [], downType: string = 'comp', space: 
   for (let i = 0; i < arr.length; i++) {
     let checkComplete = true
     const element = arr[i]
-    let { type, url: imgUrl, imageUrl = '', color, content: text, fontSize, width, height, left, top, letterSpacing, lineHeight, opacity, textAlign, fontFamily, fontWeight, writingMode, textDecoration, transform, textEffects: tEsData } = element
+    let { type, url: imgUrl, imgUrl: imageUrl, mask, color, content: text, fontSize, width, height, left, top, letterSpacing, lineHeight, opacity, textAlign, fontFamily, fontWeight, writingMode, textDecoration, transform, textEffects: tEsData, colors } = element
     let defaultData: any = JSON.parse(JSON.stringify(imageDefault))
     let uploadRes: any = null
-    !imgUrl && (imgUrl = imageUrl)
+    let uploadRes2: any = null
+    let svgUrl: any = undefined
+    !imgUrl && (imgUrl = imageUrl || '')
     // throwErrorInfo('调试数据生成: ' + type, element, type)
-    if (type === 'text') {
+    if (type === 'text' || type === 'threeText') {
       defaultData = JSON.parse(JSON.stringify(textDefault))
-    } else if (type === 'svg' || type === 'image' || type === 'ninePatch') {
+    } else if (type === 'svg') {
+      defaultData = JSON.parse(JSON.stringify(svgDefault))
+      svgUrl = imgUrl
+    } else if (type === 'image' || type === 'mask' || type === 'ninePatch') {
       imgUrl && (uploadRes = await downUpdateImage(imgUrl, headers, downType, space))
+      mask && (uploadRes2 = await downUpdateImage(mask, headers, downType, space))
       if (!imgUrl) {
         throwErrorInfo('缺少图片素材: ' + type, element, type)
         checkComplete = false
@@ -139,10 +145,20 @@ async function addComponentsGD(arr: any = [], downType: string = 'comp', space: 
     // 计算角度
     const rotate = tools.matrix2rotate(transform)
     const textEffects = tools.getTextEffects(tEsData)
+    // 获取字体
+    const fontClass = fontFamily ? await tools.getGDFont(fontFamily.split(' ').join('')) : fontFamily
+
     checkComplete &&
       collecter.push(
         Object.assign(defaultData, {
-          text: text ? encodeURIComponent(text.replace('厦门', '广州').replace(/^\s+|\s+$/g, '')) : text,
+          text: text
+            ? encodeURIComponent(
+                text
+                  .replace(/厦门/g, '广州')
+                  .replace(/稿定/g, '速图')
+                  .replace(/^\s+|\s+$/g, '')
+              )
+            : text,
           fontSize,
           width: +width + 1,
           height: height,
@@ -153,17 +169,21 @@ async function addComponentsGD(arr: any = [], downType: string = 'comp', space: 
           opacity,
           textAlign,
           imgUrl: uploadRes ? uploadRes.url : imgUrl,
+          mask: uploadRes2 ? uploadRes2.url : undefined,
           color: color || defaultData.color,
-          fontFamily: fontFamily ? fontFamily.split(' ').join('') : fontFamily,
+          fontClass,
           fontWeight,
           writingMode,
           textDecoration,
           rotate: rotate ? rotate + 'deg' : rotate,
           transformData: transform,
           textEffects,
+          colors,
+          svgUrl,
         })
       )
     uploadRes && uploadRes.key && resKeyCollecter.push(uploadRes.key)
+    uploadRes2 && uploadRes2.key && resKeyCollecter.push(uploadRes2.key)
   }
   return { collecter, resKeyCollecter }
 }
@@ -412,6 +432,7 @@ module.exports = {
     const tempListUrl = `${prefix}sim_search?page_num=${page}&page_size=${limit}&q=&sort=&filter_id=${filter_id}&region_id=1&biz_code=1&endpoint=4&is_free=&similar_mid=101094664`
     const compListUrl = `${prefix}material?platforms=0&channels=1&filter_id=${filter_id}&q=&region_id=1&biz_code=1&endpoint=4&page_size=${limit}&page_num=${page}`
     const url = setType == 1 ? compListUrl : tempListUrl
+    // console.log('list url = ', url);
     return new Promise(async (resolve) => {
       http.get(url).then(async (resp: any) => {
         const datalist = resp

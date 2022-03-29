@@ -3,7 +3,7 @@
  * @Date: 2020-07-24 21:43:00
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-22 14:24:12
+ * @LastEditTime: 2022-03-29 18:27:39
  * @site: book.palxp.com / blog.palxp.com
  */
 /**
@@ -49,9 +49,9 @@ exports.spiderGD = {
   // 我的Temp 1	手机海报 2	公众号封面 3	视频封面 4	文章长图 5	电商海报
   // 稿定Comp分类 12-1609221,1617537 13-1609221,1614416 14-1609221,1618449 15-1609221,1614415 18-1609221,1614959
   // 我的Comp 12-基础文字 13-节日热点 14-电商文字 15-晒图标记 18-按钮素材
-  type: 'comp',
-  filter_id: '1609221,1614959',
-  category_id: 16,
+  type: 'temp', // comp
+  filter_id: '4812636',
+  category_id: 1,
   start: 1,
   end: 10,
 }
