@@ -3,13 +3,13 @@
  * @Date: 2022-01-04 09:17:49
  * @Description: 爬取模板/组件
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-29 18:33:37
+ * @LastEditTime: 2022-03-29 18:45:08
  * @site: book.palxp.com / blog.palxp.com
  */
 
 const downUpdateImage = require('./downUpdateImage.ts')
 const tools = require('./index.ts')
-let { image: imageDefault, text: textDefault, svg: svgDefault, group: groupDefault, page: pageDefault, fontClass: fontDefault } = require('./data/Default-Data')
+let { image: imageDefault, text: textDefault, svg: svgDefault, group: groupDefault, page: pageDefault, fontClass: fontDefault } = require('./data/Default-Data.js')
 
 const http = require('../../../utils/http.ts')
 const url = 'https://bigesj.com/new/design/groupRule/'

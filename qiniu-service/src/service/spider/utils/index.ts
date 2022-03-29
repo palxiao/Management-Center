@@ -3,7 +3,7 @@
  * @Date: 2022-02-18 16:31:19
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-29 18:31:08
+ * @LastEditTime: 2022-03-29 18:45:22
  * @site: book.palxp.com / blog.palxp.com
  */
 interface Matrix {
@@ -47,8 +47,8 @@ exports.getTextEffects = (data: any = []) => {
   return arr.length > 0 ? arr : undefined
 }
 
-const { fonts: FONTS } = require('./data/Fonts-Data')
-const { fontClass } = require('./data/Default-Font')
+const { fonts: FONTS } = require('./data/Fonts-Data.js')
+const { fontClass } = require('./data/Default-Font.js')
 exports.getGDFont = async (fontFamily: any) => {
   const localFonts = FONTS || []
   const font = JSON.parse(JSON.stringify(fontClass))
@@ -75,7 +75,7 @@ exports.getGDFont = async (fontFamily: any) => {
 
 // 请求稿定不知名接口获得字体
 function searchFonts(fontFamily: any) {
-  const http = require('../../../utils/http')
+  const http = require('../../../utils/http.ts')
   return new Promise((resolve) => {
     http.get('https://www.gaoding.com/api/v2/font-fallbacks', { params: { font_name: fontFamily } }).then((resp: any) => {
       resolve(resp)

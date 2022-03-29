@@ -16,10 +16,10 @@ const switchOne: number = isDev ? 0 : 1
 
 const _config = require('../config.json')
 let db = {
-  host: '14.18.45.234',
+  host: '${host}',
   port: 3306,
-  user: 'root',
-  password: 'Shawn-2022',
+  user: '${user}',
+  password: '${password}',
   database: 'spider',
 }
 isDev && (db = Object.assign(db, _config))
@@ -27,13 +27,13 @@ isDev && (db = Object.assign(db, _config))
 exports.db = db
 
 exports.wx = {
-  APPID: 'wx73245ddf5809300c',
-  APPSECRET: '68832df4408c1a95b67103205a628936',
+  APPID: '${APPID}',
+  APPSECRET: '${APPSECRET}',
 }
 
 exports.QiNiu = {
-  AK: isDev ? _config.AK : 'fy9ObBDZFbauP2ve8vseD83oEjPBE05oJGKDHSvr',
-  SK: isDev ? _config.SK : 'XhceNEOauDkXHaehuZ0apAxflDx2OOeC48FrwAIB',
+  AK: isDev ? _config.AK : '${AK}',
+  SK: isDev ? _config.SK : '${SK}',
 }
 
 exports.spider = {
