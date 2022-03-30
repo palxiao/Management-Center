@@ -3,7 +3,7 @@
  * @Date: 2021-12-31 11:09:30
  * @Description: Type: 0 模板，1 文字组件
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-07 15:41:40
+ * @LastEditTime: 2022-03-30 11:17:18
  * @site: book.palxp.com / blog.palxp.com
  */
 const func = require('../../utils/mysql.ts')
@@ -49,7 +49,7 @@ module.exports = {
   fetchAllFonts(req: any, res: any) {
     const { page = 1, pageSize = 20, order = 'desc', name } = req.query
     const jumpNum = (+page - 1) * +pageSize
-    func.connPool(`SELECT * FROM fonts ${name ? `WHERE name like '%${name}%'` : ''} LIMIT ${jumpNum},${pageSize}`, [], async (rows: any) => {
+    func.connPool(`SELECT * FROM fonts ${name ? `WHERE alias like '%${name}%'` : ''} LIMIT ${jumpNum},${pageSize}`, [], async (rows: any) => {
       const query = 'select count(id) from fonts'
       const total = await func.pConnPool(query)
       res.json({ code: 200, msg: 'ok', result: { list: rows, total: total[0]['count(id)'] } })
@@ -110,17 +110,19 @@ module.exports = {
     arr.push(id)
     const query = `UPDATE ${type == 0 ? 'template' : 'component'} SET ${paramsArr.toString()} WHERE id=?`
     if (id) {
-      const data = await func.pConnPool(`SELECT width,height,cover FROM template WHERE id = ${id}`)
-      const coverName = data[0].cover.split('/')[data[0].cover.split('/').length - 1]
-      const coverGroup = data[0].cover.split('/')[data[0].cover.split('/').length - 2]
-      // console.log(coverName, coverGroup)
-      setTimeout(async () => {
-        const { url } = await Img2QiNiu(`${screenShotUrl}tempid=${id}&width=${data[0].width}&height=${data[0].height}&type=cover&size=600&quality=75`, null, 'cover', coverGroup, coverName)
-        console.log(url)
-      }, 1000)
       func.connPool(query, arr, (rows: any) => {
         res.json({ code: 200, msg: '修改成功' })
       })
+      if (type == 0) {
+        const data = await func.pConnPool(`SELECT width,height,cover FROM template WHERE id = ${id}`)
+        const coverName = data[0].cover.split('/')[data[0].cover.split('/').length - 1]
+        const coverGroup = data[0].cover.split('/')[data[0].cover.split('/').length - 2]
+        // console.log(coverName, coverGroup)
+        setTimeout(async () => {
+          const { url } = await Img2QiNiu(`${screenShotUrl}tempid=${id}&width=${data[0].width}&height=${data[0].height}&type=cover&size=600&quality=75`, null, 'cover', coverGroup, coverName)
+          console.log(url)
+        }, 1000)
+      }
     } else {
       res.json({ code: 0, msg: 'id为空或没有data数据' })
     }

@@ -3,13 +3,13 @@
  * @Date: 2022-02-10 21:17:53
  * @Description:  
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-20 22:56:11
+ * @LastEditTime: 2022-03-30 15:09:03
  * @site: book.palxp.com / blog.palxp.com
 -->
 <template>
   <br />
   <el-table :data="tableData" style="width: 100%">
-    <el-table-column prop="name" label="Font Name" />
+    <el-table-column prop="alias" label="Font Name" />
     <el-table-column label="Preview">
       <template #default="scope">
         <img style="height: 2em" :src="scope.row.preview" />
