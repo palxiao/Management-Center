@@ -3,7 +3,7 @@
  * @Date: 2021-12-31 11:09:30
  * @Description: Type: 0 模板，1 文字组件
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-30 11:17:18
+ * @LastEditTime: 2022-03-30 16:37:31
  * @site: book.palxp.com / blog.palxp.com
  */
 const func = require('../../utils/mysql.ts')
@@ -119,7 +119,9 @@ module.exports = {
         const coverGroup = data[0].cover.split('/')[data[0].cover.split('/').length - 2]
         // console.log(coverName, coverGroup)
         setTimeout(async () => {
-          const { url } = await Img2QiNiu(`${screenShotUrl}tempid=${id}&width=${data[0].width}&height=${data[0].height}&type=cover&size=600&quality=75`, null, 'cover', coverGroup, coverName)
+          const { width, height } = data[0]
+          const size = width > height ? 640 : 320
+          const { url } = await Img2QiNiu(`${screenShotUrl}tempid=${id}&width=${width}&height=${height}&type=cover&size=${size}&quality=75`, null, 'cover', coverGroup, coverName)
           console.log(url)
         }, 1000)
       }

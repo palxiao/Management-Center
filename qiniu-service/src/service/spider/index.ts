@@ -3,7 +3,7 @@
  * @Date: 2021-12-31 11:09:30
  * @Description: Type: 0 模板，1 文字组件
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-21 23:34:56
+ * @LastEditTime: 2022-04-05 15:41:19
  * @site: book.palxp.com / blog.palxp.com
  */
 const func = require('../../utils/mysql.ts')
@@ -33,7 +33,7 @@ async function spiderTempGD(setType: string | number = 0, params: any = { limit:
   let original = await func.pConnPool(`SELECT original FROM ${setType == 0 ? 'template' : 'component'}`)
   original = original.map((x: any) => x.original)
   const { spiderGD: gdConfig } = require('../../configs.ts')
-  params.filter_id = gdConfig.filter_id
+  params = Object.assign(gdConfig, params)
   const list = await getTempListGaoding(setType, params, original)
   for (let i = 0; i < list.length; i++) {
     const { collecter, title, resKeyCollecter: resource = '', width, height } = setType == 0 ? await getTemplateGaoding(list[i].id) : await getComponentGaoding(list[i].id)

@@ -3,7 +3,7 @@
  * @Date: 2022-02-18 16:31:19
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-29 18:45:22
+ * @LastEditTime: 2022-04-06 23:30:34
  * @site: book.palxp.com / blog.palxp.com
  */
 interface Matrix {
@@ -41,7 +41,7 @@ exports.getTextEffects = (data: any = []) => {
       for (let i = 0; i < known.length; i++) {
         iterator[known[i]].enable && (obj[known[i]] = iterator[known[i]])
       }
-      arr.push(obj)
+      arr.unshift(obj)
     }
   } catch (e) {}
   return arr.length > 0 ? arr : undefined
@@ -52,12 +52,12 @@ const { fontClass } = require('./data/Default-Font.js')
 exports.getGDFont = async (fontFamily: any) => {
   const localFonts = FONTS || []
   const font = JSON.parse(JSON.stringify(fontClass))
-  let gdFont = localFonts.find((font: any) => font.name === fontFamily)
+  let gdFont = localFonts.find((font: any) => font.value == fontFamily)
   if (!gdFont) {
     const searchFallback: any = await searchFonts(fontFamily)
     for (let i = 0; i < searchFallback.length; i++) {
       const { dest } = searchFallback[i]
-      gdFont = localFonts.find((font: any) => font.name === dest)
+      gdFont = localFonts.find((font: any) => font.value === dest)
       if (gdFont) {
         break
       }
@@ -65,11 +65,10 @@ exports.getGDFont = async (fontFamily: any) => {
   }
   if (gdFont) {
     font.id = gdFont.id
-    font.value = gdFont.name
+    font.value = gdFont.value
     font.url = gdFont.url
     font.alias = gdFont.alias
   }
-
   return font
 }
 

@@ -3,7 +3,7 @@
  * @Date: 2021-12-30 17:41:15
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-29 17:17:33
+ * @LastEditTime: 2022-03-31 16:14:49
  * @site: book.palxp.com / blog.palxp.com
  */
 const { fontClass } = require('./Default-Font')
@@ -81,6 +81,35 @@ module.exports = {
       height: 0,
       minWidth: 10,
       minHeight: 10,
+    },
+  },
+  qrcode: {
+    name: '二维码',
+    type: 'w-qrcode',
+    uuid: -1,
+    width: 100,
+    height: 100,
+    left: 0,
+    top: 0,
+    zoom: 1,
+    transform: '',
+    radius: 0,
+    opacity: 1,
+    parent: '-1',
+    url: '',
+    dotType: 'classy',
+    dotColorType: 'single',
+    dotRotation: 270,
+    dotColor: '#35495E',
+    dotColor2: '#35495E',
+    value: 'http://sudo.palxp.com/qrcode',
+    setting: [],
+    record: {
+      width: 0,
+      height: 0,
+      minWidth: 10,
+      minHeight: 10,
+      dir: 'all',
     },
   },
   group: {

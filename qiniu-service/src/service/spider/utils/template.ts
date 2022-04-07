@@ -3,13 +3,13 @@
  * @Date: 2022-01-04 09:17:49
  * @Description: 爬取模板/组件
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-29 18:45:08
+ * @LastEditTime: 2022-04-07 10:50:10
  * @site: book.palxp.com / blog.palxp.com
  */
 
 const downUpdateImage = require('./downUpdateImage.ts')
 const tools = require('./index.ts')
-let { image: imageDefault, text: textDefault, svg: svgDefault, group: groupDefault, page: pageDefault, fontClass: fontDefault } = require('./data/Default-Data.js')
+let { image: imageDefault, text: textDefault, qrcode: qrcodeDefault, svg: svgDefault, group: groupDefault, page: pageDefault, fontClass: fontDefault } = require('./data/Default-Data.js')
 
 const http = require('../../../utils/http.ts')
 const url = 'https://bigesj.com/new/design/groupRule/'
@@ -110,7 +110,7 @@ async function addComponentsGD(arr: any = [], downType: string = 'comp', space: 
   for (let i = 0; i < arr.length; i++) {
     let checkComplete = true
     const element = arr[i]
-    let { type, url: imgUrl, imgUrl: imageUrl, mask, color, content: text, fontSize, width, height, left, top, letterSpacing, lineHeight, opacity, textAlign, fontFamily, fontWeight, writingMode, textDecoration, transform, textEffects: tEsData, colors } = element
+    let { type, category, title, url: imgUrl, imgUrl: imageUrl, mask, color, content: text, fontSize, width, height, left, top, letterSpacing, lineHeight, opacity, textAlign, fontFamily, fontWeight, writingMode, textDecoration, transform, textEffects: tEsData, colors, imageSlice, originWidth, originHeight, filter } = element
     let defaultData: any = JSON.parse(JSON.stringify(imageDefault))
     let uploadRes: any = null
     let uploadRes2: any = null
@@ -123,13 +123,23 @@ async function addComponentsGD(arr: any = [], downType: string = 'comp', space: 
       defaultData = JSON.parse(JSON.stringify(svgDefault))
       svgUrl = imgUrl
     } else if (type === 'image' || type === 'mask' || type === 'ninePatch') {
-      imgUrl && (uploadRes = await downUpdateImage(imgUrl, headers, downType, space))
-      mask && (uploadRes2 = await downUpdateImage(mask, headers, downType, space))
-      if (!imgUrl) {
-        throwErrorInfo('缺少图片素材: ' + type, element, type)
-        checkComplete = false
+      if (category.toLowerCase() === 'qrcode') {
+        defaultData = JSON.parse(JSON.stringify(qrcodeDefault))
+      } else {
+        imgUrl && (uploadRes = await downUpdateImage(imgUrl, headers, downType, space))
+        mask && (uploadRes2 = await downUpdateImage(mask, headers, downType, space))
+        if (imageSlice && type === 'ninePatch') {
+          const ratio = Math.min(originWidth, originHeight) / Math.min(width, height)
+          defaultData.sliceData = { ...imageSlice, ratio }
+          defaultData.isNinePatch = true
+        }
+        if (!imgUrl) {
+          throwErrorInfo('缺少图片素材: ' + type, element, type)
+          checkComplete = false
+        }
       }
-    } else if (element.groupable && type === 'group') {
+    } else if (element.groupable) {
+      // type === 'group' type === 'flex'
       const { collecter: childComps } = await addComponentsGD(element.elements, downType, space, resKeyCollecter) // 添加子组件
       collecter = collecter.concat(
         childComps.map((x: any) => {
@@ -145,6 +155,7 @@ async function addComponentsGD(arr: any = [], downType: string = 'comp', space: 
     // 计算角度
     const rotate = tools.matrix2rotate(transform)
     const textEffects = tools.getTextEffects(tEsData)
+    const isVertical = writingMode ? writingMode.indexOf('vertical') != -1 : false
     // 获取字体
     const fontClass = fontFamily ? await tools.getGDFont(fontFamily.split(' ').join('')) : fontFamily
 
@@ -156,12 +167,15 @@ async function addComponentsGD(arr: any = [], downType: string = 'comp', space: 
                 text
                   .replace(/厦门/g, '广州')
                   .replace(/稿定/g, '速图')
+                  .replace(/高小定/g, '苏小图')
+                  .replace(/GAODING/g, 'SUDO.PAL')
+                  .replace(/www.gaoding.com/g, 'sudo.palxp.com')
                   .replace(/^\s+|\s+$/g, '')
               )
             : text,
           fontSize,
-          width: +width + 1,
-          height: height,
+          width: Number(width) + 1 + (!isVertical && letterSpacing ? Number(letterSpacing) : 0), // 字距补偿
+          height: Number(height) + 1 + (isVertical && letterSpacing ? Number(letterSpacing) : 0), // 字距补偿
           left,
           top,
           letterSpacing: (letterSpacing * 100) / fontSize, // 此属性设计方式不同所以转换下
@@ -180,6 +194,7 @@ async function addComponentsGD(arr: any = [], downType: string = 'comp', space: 
           textEffects,
           colors,
           svgUrl,
+          filter, // 滤镜
         })
       )
     uploadRes && uploadRes.key && resKeyCollecter.push(uploadRes.key)
@@ -187,15 +202,19 @@ async function addComponentsGD(arr: any = [], downType: string = 'comp', space: 
   }
   return { collecter, resKeyCollecter }
 }
-function compFactory(defaultData: any, layouts: any) {
+async function compFactory(defaultData: any, layouts: any) {
   let { url: imgUrl = '', color, content: text, fontSize, width, height, left, top, letterSpacing, lineHeight, opacity, textAlign, fontFamily, fontWeight, writingMode, textDecoration, transform, textEffects: tEsData } = layouts
   const rotate = tools.matrix2rotate(transform)
   const textEffects = tools.getTextEffects(tEsData)
+  const isVertical = writingMode ? writingMode.indexOf('vertical') != -1 : false
+  // 获取字体
+  const fontClass = fontFamily ? await tools.getGDFont(fontFamily.split(' ').join('')) : fontFamily
+
   return Object.assign(defaultData, {
     text: text ? encodeURIComponent(text.replace('厦门', '广州').replace(/^\s+|\s+$/g, '')) : text,
     fontSize,
-    width: +width + 1,
-    height: height,
+    width: Number(width) + 1 + (!isVertical && letterSpacing ? Number(letterSpacing) : 0), // 字距补偿
+    height: Number(height) + 1 + (isVertical && letterSpacing ? Number(letterSpacing) : 0), // 字距补偿
     left,
     top,
     letterSpacing: (letterSpacing * 100) / fontSize, // 此属性设计方式不同所以转换下
@@ -203,7 +222,7 @@ function compFactory(defaultData: any, layouts: any) {
     opacity,
     textAlign,
     color: color || defaultData.color,
-    fontFamily: fontFamily ? fontFamily.split(' ').join('') : fontFamily,
+    fontClass,
     fontWeight,
     writingMode,
     textDecoration,
@@ -420,19 +439,19 @@ module.exports = {
           resolve(result)
         } else if (layouts.type === 'text') {
           let defaultData = JSON.parse(JSON.stringify(textDefault))
-          result.collecter = compFactory(defaultData, layouts)
+          result.collecter = await compFactory(defaultData, layouts)
           resolve(result)
         }
       })
     })
   },
   getTempListGaoding(setType: any, params: any, oids: string[] = []) {
-    const { filter_id, page, limit }: any = params
+    const { filter_id, page, limit, similar_mid, channel_category_id }: any = params
     const prefix = 'https://www.gaoding.com/api/open/editor/gd_web/editor/'
-    const tempListUrl = `${prefix}sim_search?page_num=${page}&page_size=${limit}&q=&sort=&filter_id=${filter_id}&region_id=1&biz_code=1&endpoint=4&is_free=&similar_mid=101094664`
+    const tempListUrl = `${prefix}sim_search?page_num=${page}&page_size=${limit}&q=&sort=${filter_id ? `&filter_id=${filter_id}` : ''}${channel_category_id ? `&channel_category_id=${channel_category_id}` : ''}&region_id=1&biz_code=1&endpoint=4&is_free=&similar_mid=${similar_mid}`
     const compListUrl = `${prefix}material?platforms=0&channels=1&filter_id=${filter_id}&q=&region_id=1&biz_code=1&endpoint=4&page_size=${limit}&page_num=${page}`
     const url = setType == 1 ? compListUrl : tempListUrl
-    // console.log('list url = ', url);
+    // console.log('list url = ', url)
     return new Promise(async (resolve) => {
       http.get(url).then(async (resp: any) => {
         const datalist = resp

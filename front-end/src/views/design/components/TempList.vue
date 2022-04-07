@@ -3,7 +3,7 @@
  * @Date: 2021-08-29 15:28:55
  * @Description: 
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-07 15:25:46
+ * @LastEditTime: 2022-03-31 15:46:02
  * @site: book.palxp.com / blog.palxp.com
 -->
 <template>
@@ -70,9 +70,9 @@ export default defineComponent({
 
     const delPic = async ({ id }: any, index: number) => {
       await Confirm.open('删除后不可恢复, 是否继续?')
+      state.listData.splice(index, 1)
       await api.removeComp({ id })
       Notification.success('删除成功')
-      state.listData.splice(index, 1)
     }
 
     const reName = async ({ key }: any, index: number) => {

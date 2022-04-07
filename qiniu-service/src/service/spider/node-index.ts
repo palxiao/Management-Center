@@ -3,7 +3,7 @@
  * @Date: 2022-02-11 18:44:09
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-15 17:02:08
+ * @LastEditTime: 2022-03-31 14:19:39
  * @site: book.palxp.com / blog.palxp.com
  */
 const { spider: spiderConfig } = require('../../configs.ts')
@@ -23,7 +23,7 @@ async function RunTemp(url: string, page: number) {
     console.log('任务超时，重新爬取中......')
     tempPage--
     RunTemp(baseUrl, tempPage)
-  }, 60000)
+  }, 120000)
   // setTemps2({limit: 1, page: tempPage})
 
   const axios = require('../../utils/http.ts')
