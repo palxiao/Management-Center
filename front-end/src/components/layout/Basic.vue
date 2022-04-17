@@ -3,7 +3,7 @@
  * @Date: 2021-08-24 14:50:21
  * @Description: 
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2021-08-25 22:06:25
+ * @LastEditTime: 2022-04-15 17:43:40
  * @site: book.palxp.com / blog.palxp.com
 -->
 
@@ -56,5 +56,12 @@ export default defineComponent({
 }
 .main {
   background-color: #f0f2f5;
+  scrollbar-width: none; /* firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.main::-webkit-scrollbar {
+  display: none; /* Chrome Safari */
 }
 </style>

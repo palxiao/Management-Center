@@ -3,7 +3,7 @@
  * @Date: 2021-12-30 17:41:15
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-31 16:14:49
+ * @LastEditTime: 2022-04-17 16:18:02
  * @site: book.palxp.com / blog.palxp.com
  */
 const { fontClass } = require('./Default-Font')
@@ -22,6 +22,7 @@ module.exports = {
     opacity: 1,
     parent: '-1',
     imgUrl: '',
+    mask: '',
     setting: [],
     record: {
       width: 0,

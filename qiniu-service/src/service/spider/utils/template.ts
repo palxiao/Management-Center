@@ -3,7 +3,7 @@
  * @Date: 2022-01-04 09:17:49
  * @Description: 爬取模板/组件
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-04-07 10:50:10
+ * @LastEditTime: 2022-04-17 18:08:33
  * @site: book.palxp.com / blog.palxp.com
  */
 
@@ -110,7 +110,7 @@ async function addComponentsGD(arr: any = [], downType: string = 'comp', space: 
   for (let i = 0; i < arr.length; i++) {
     let checkComplete = true
     const element = arr[i]
-    let { type, category, title, url: imgUrl, imgUrl: imageUrl, mask, color, content: text, fontSize, width, height, left, top, letterSpacing, lineHeight, opacity, textAlign, fontFamily, fontWeight, writingMode, textDecoration, transform, textEffects: tEsData, colors, imageSlice, originWidth, originHeight, filter } = element
+    let { type, category, title, url: imgUrl, imgUrl: imageUrl, mask, color, content: text, fontSize, width, height, left, top, letterSpacing, lineHeight, opacity, textAlign, fontFamily, fontWeight, writingMode, textDecoration, transform,imageTransform, textEffects: tEsData, colors, imageSlice, originWidth, originHeight, filter } = element
     let defaultData: any = JSON.parse(JSON.stringify(imageDefault))
     let uploadRes: any = null
     let uploadRes2: any = null
@@ -127,7 +127,10 @@ async function addComponentsGD(arr: any = [], downType: string = 'comp', space: 
         defaultData = JSON.parse(JSON.stringify(qrcodeDefault))
       } else {
         imgUrl && (uploadRes = await downUpdateImage(imgUrl, headers, downType, space))
-        mask && (uploadRes2 = await downUpdateImage(mask, headers, downType, space))
+        if (mask) {
+          uploadRes2 = await downUpdateImage(mask, headers, downType, space)
+          mask = ''
+        }
         if (imageSlice && type === 'ninePatch') {
           const ratio = Math.min(originWidth, originHeight) / Math.min(width, height)
           defaultData.sliceData = { ...imageSlice, ratio }
@@ -183,14 +186,14 @@ async function addComponentsGD(arr: any = [], downType: string = 'comp', space: 
           opacity,
           textAlign,
           imgUrl: uploadRes ? uploadRes.url : imgUrl,
-          mask: uploadRes2 ? uploadRes2.url : undefined,
+          mask: uploadRes2 ? uploadRes2.url : mask,
           color: color || defaultData.color,
           fontClass,
           fontWeight,
           writingMode,
           textDecoration,
           rotate: rotate ? rotate + 'deg' : rotate,
-          transformData: transform,
+          imageTransform,
           textEffects,
           colors,
           svgUrl,

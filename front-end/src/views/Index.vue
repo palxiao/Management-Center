@@ -3,12 +3,16 @@
  * @Date: 2021-07-22 01:09:44
  * @Description: 
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-27 23:58:41
+ * @LastEditTime: 2022-04-15 18:00:17
  * @site: book.palxp.com / blog.palxp.com
 -->
 <template>
   <div class="home">
-    <div class="head">检视项目情况</div>
+    <el-card class="item" shadow="never">
+      <iframe src="http://101.91.145.2:3001/playlists/play/1?kiosk=tv&theme=light" width="100%" frameborder="0"></iframe>
+    </el-card>
+
+    <!-- <div class="head">检视项目情况</div> -->
     <!-- <el-row :gutter="12">
       <el-col :span="8">
         <el-card class="item" shadow="never">
@@ -40,10 +44,11 @@ export default defineComponent({
 
 <style lang="less" scoped>
 .home {
-  width: 100%;
+  margin: -20px 0 -20px -20px;
+  width: calc(100% + 40px);
   // display: flex;
   .item {
-    height: calc(100vh - 200px);
+    height: calc(100vh - 64px);
     :deep(.el-card__body) {
       height: 100%;
     }

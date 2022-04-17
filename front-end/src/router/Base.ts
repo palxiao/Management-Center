@@ -3,7 +3,7 @@
  * @Date: 2021-07-22 01:09:44
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-12 17:52:59
+ * @LastEditTime: 2022-04-15 17:44:19
  * @site: book.palxp.com / blog.palxp.com
  */
 export default [
@@ -23,7 +23,7 @@ export default [
         name: 'home',
         path: '/home',
         component: () => import(/* webpackChunkName: 'base' */ '@/views/Index.vue'),
-        meta: { title: '主面板', permission: [] },
+        meta: { title: '数据监控', permission: [] },
       },
     ],
   },
