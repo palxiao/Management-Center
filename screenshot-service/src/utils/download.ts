@@ -3,7 +3,7 @@
  * @Date: 2021-09-30 14:47:22
  * @Description:  下载图片
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-04-18 12:54:03
+ * @LastEditTime: 2022-04-18 12:58:15
  * @site: book.palxp.com / blog.palxp.com
  */
 const puppeteer = require('puppeteer')
@@ -42,10 +42,10 @@ const saveScreenshot = async (url: string, { path, width, height, thumbPath, siz
         //.draw(images('logo.png'), 10, 10) //Drawn logo at coordinates (10,10)
         // let tinyJpg = images(path).encode('jpg', { quality: 50 })
         // images(tinyJpg).save(path)
-        // thumbPath &&
-        //   images(path)
-        //     .size(+size || 300)
-        //     .save(thumbPath, { quality: +quality || 70 })
+        thumbPath &&
+          images(path)
+            .size(+size || 300)
+            .save(thumbPath, { quality: +quality || 70 })
         // tinyJpg = null
       } catch (err) {
         console.log(err)
