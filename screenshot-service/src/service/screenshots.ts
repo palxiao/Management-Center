@@ -3,7 +3,7 @@
  * @Date: 2020-07-22 20:13:14
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-05 21:45:02
+ * @LastEditTime: 2022-04-18 11:38:32
  * @site: book.palxp.com / blog.palxp.com
  */
 const sql = require('../utils/widget/sql.ts')
@@ -37,12 +37,12 @@ module.exports = {
     let { id, tempid, width, height, screenshot_url, type="file", size, quality } = req.query
     const defaultUrl = 'http://sudo.palxp.com/draw'
     const url = (screenshot_url || defaultUrl) + `${id?'?id=':'?tempid='}`
-    id = id || tempid
+    id = id ? 'id-'+id : tempid
     const path = filePath + `${id}-screenshot.png`
     const thumbPath = type === 'cover' ? filePath + `${id}-cover.jpg` : null
 
     if (id && width && height) {
-      console.log(url + id);
+      console.log(url + id, path, thumbPath);
       queueRun(saveScreenshot, url + id, { width, height, path, thumbPath, size, quality }).then(() => {
         res.setHeader('Content-Type', 'image/jpg')
         // const stats = fs.statSync(path)
