@@ -3,7 +3,7 @@
  * @Date: 2020-07-24 21:43:00
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-04-17 18:09:29
+ * @LastEditTime: 2022-04-18 09:54:12
  * @site: book.palxp.com / blog.palxp.com
  */
 /**
@@ -47,14 +47,14 @@ exports.spider = {
 exports.spiderGD = {
   // 「 page linit 已占用 」
   // 稿定Temp分类 4812636|4812639 手机海报 4812613|4812617 公众号封面 4812678	视频封面 4812624	文章长图 4812652	电商海报
-  // 我的Temp 1	手机海报 2	公众号封面 3	视频封面 4	文章长图 5	电商海报
+  // 我的Temp 1	手机海报 2公众号封面 3视频封面 4文章长图 5电商海报
   // 稿定Comp分类 12-1609221,1617537 13-1609221,1614416 14-1609221,1618449 15-1609221,1614415 18-1609221,1614959
   // 我的Comp 12-基础文字 13-节日热点 14-电商文字 15-晒图标记 18-按钮素材 23-文艺花字-1609221,1614953 24-复古花字-1609221,1615556
-  type: 'comp', // comp temp
-  filter_id: '1609221,1615556',
-  category_id: 24,
+  type: 'temp', // comp temp
+  filter_id: '4812624',
+  category_id: 4,
   start: 1,
-  end: 40,
+  end: 30,
   channel_category_id: undefined,
   similar_mid: '101094664', // 101094664 18988362
 }

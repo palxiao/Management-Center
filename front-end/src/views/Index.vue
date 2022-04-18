@@ -3,13 +3,13 @@
  * @Date: 2021-07-22 01:09:44
  * @Description: 
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-04-15 18:00:17
+ * @LastEditTime: 2022-04-18 10:39:33
  * @site: book.palxp.com / blog.palxp.com
 -->
 <template>
   <div class="home">
     <el-card class="item" shadow="never">
-      <iframe src="http://101.91.145.2:3001/playlists/play/1?kiosk=tv&theme=light" width="100%" frameborder="0"></iframe>
+      <iframe :src="glink" width="100%" frameborder="0"></iframe>
     </el-card>
 
     <!-- <div class="head">检视项目情况</div> -->
@@ -38,7 +38,14 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   components: {},
-  setup() {},
+  setup() {
+    // http://101.91.145.2:3001/d/LGTKRRQ7z/loki-nginx-jian-kong-mian-ban?orgId=1&theme=light&from=now-15m&to=now&kiosk=tv
+    // http://101.91.145.2:3001/playlists/play/1?kiosk=tv&theme=light&from=now-15m&to=now
+    const glink = 'http://101.91.145.2:3001/d/LGTKRRQ7z/loki-nginx-jian-kong-mian-ban?orgId=1&theme=light&from=now-15m&to=now&kiosk=tv'
+    return {
+      glink,
+    }
+  },
 })
 </script>
 
