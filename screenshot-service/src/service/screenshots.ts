@@ -3,7 +3,7 @@
  * @Date: 2020-07-22 20:13:14
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-04-18 12:54:53
+ * @LastEditTime: 2022-04-18 13:39:25
  * @site: book.palxp.com / blog.palxp.com
  */
 const sql = require('../utils/widget/sql.ts')
@@ -42,7 +42,7 @@ module.exports = {
     const thumbPath = type === 'cover' ? filePath + `${id}-cover.jpg` : null
 
     if (id && width && height) {
-      console.log(url + id, path, thumbPath);
+      // console.log(url + id, path, thumbPath);
       queueRun(saveScreenshot, url + id, { width, height, path, thumbPath, size, quality }).then(() => {
         res.setHeader('Content-Type', 'image/jpg')
         // const stats = fs.statSync(path)
