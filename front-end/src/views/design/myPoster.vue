@@ -63,7 +63,7 @@ export default defineComponent({
     }
 
     const open = ({ id }: any) => {
-      window.open(`http://sudo.palxp.com/home?id=${id}`)
+      window.open(`https://sudo.palxp.com/home?id=${id}`)
     }
     const delPoster = async ({ id }: any, index: number) => {
       await Confirm.open('删除后不可恢复, 是否继续?')

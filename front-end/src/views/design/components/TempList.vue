@@ -3,7 +3,7 @@
  * @Date: 2021-08-29 15:28:55
  * @Description: 
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-31 15:46:02
+ * @LastEditTime: 2022-04-21 23:38:12
  * @site: book.palxp.com / blog.palxp.com
 -->
 <template>
@@ -81,7 +81,7 @@ export default defineComponent({
     }
 
     const open = ({ id }: any) => {
-      window.open(`http://sudo.palxp.com/home?tempid=${id}&cate=${props.cate}&edit=1`)
+      window.open(`https://sudo.palxp.com/home?tempid=${id}&cate=${props.cate}&edit=1`)
     }
 
     const typeChange = (stat: any) => {
