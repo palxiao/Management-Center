@@ -3,14 +3,14 @@
  * @Date: 2022-01-05 10:48:38
  * @Description: 七牛入库
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-02-28 22:30:59
+ * @LastEditTime: 2022-04-21 23:04:54
  * @site: book.palxp.com / blog.palxp.com
  */
 const axiosHttp = require('../../../utils/http.ts')
 const { Upload: Uploader } = require('../../../utils/upload.ts')
 const { QiNiu } = require('../../../../config.js')
 // 初始化七牛
-const qiniuPrefix = 'http://store.palxp.com/'
+const qiniuPrefix = 'https://design.palxp.com/'
 const uploader = new Uploader(QiNiu) // 临时操作
 
 module.exports = async function downUpdateImage(imgUrl: string, headers: any = {}, prefix: string = 'cache', space: string, fullPath: string = '') {

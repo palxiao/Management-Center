@@ -3,7 +3,7 @@
  * @Date: 2022-01-04 09:17:49
  * @Description: 爬取模板/组件
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-04-17 18:08:33
+ * @LastEditTime: 2022-04-21 18:35:42
  * @site: book.palxp.com / blog.palxp.com
  */
 
@@ -110,7 +110,7 @@ async function addComponentsGD(arr: any = [], downType: string = 'comp', space: 
   for (let i = 0; i < arr.length; i++) {
     let checkComplete = true
     const element = arr[i]
-    let { type, category, title, url: imgUrl, imgUrl: imageUrl, mask, color, content: text, fontSize, width, height, left, top, letterSpacing, lineHeight, opacity, textAlign, fontFamily, fontWeight, writingMode, textDecoration, transform,imageTransform, textEffects: tEsData, colors, imageSlice, originWidth, originHeight, filter } = element
+    let { type, category, title, url: imgUrl, imgUrl: imageUrl, mask, color, content: text, fontSize, width, height, left, top, letterSpacing, lineHeight, opacity, textAlign, fontFamily, fontWeight, writingMode, textDecoration, transform,imageTransform, textEffects: tEsData, colors, imageSlice, originWidth, originHeight, filter, naturalDuration } = element
     let defaultData: any = JSON.parse(JSON.stringify(imageDefault))
     let uploadRes: any = null
     let uploadRes2: any = null
@@ -198,6 +198,7 @@ async function addComponentsGD(arr: any = [], downType: string = 'comp', space: 
           colors,
           svgUrl,
           filter, // 滤镜
+          naturalDuration // 可能为gif图的持续时间数据，动图目前无法解析，原因不明
         })
       )
     uploadRes && uploadRes.key && resKeyCollecter.push(uploadRes.key)

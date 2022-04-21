@@ -9,7 +9,7 @@
 const { getPics, prepareInit } = require('../qiniu/index.ts')
 const { QiNiu: QiNiuData } = require('../../configs.ts')
 const func2 = require('../../utils/mysql.ts')
-const screenShotUrl = 'http://app.palxp.com:7001/api/screenshots?'
+const screenShotUrl = 'https://app.palxp.com:7002/api/screenshots?'
 // const screenShotUrl = 'http://localhost:7001/api/screenshots?'
 const Img2QiNiu = require('../spider/utils/downUpdateImage.ts')
 

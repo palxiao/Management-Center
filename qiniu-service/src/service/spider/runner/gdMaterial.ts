@@ -3,7 +3,7 @@
  * @Date: 2022-02-17 12:31:57
  * @Description: 采集稿定素材
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-04-17 17:52:36
+ * @LastEditTime: 2022-04-21 23:04:45
  * @site: book.palxp.com / blog.palxp.com
  */
 const func = require('../../../utils/mysql.ts')
@@ -57,7 +57,7 @@ func.pConnPool('SELECT original FROM material').then((res: any) => {
           const { prepareInit, delPicForTemp } = require('../../qiniu/index.ts')
           const { QiNiu: QiNiuData } = require('../../../configs.ts')
           prepareInit(QiNiuData)
-          await delPicForTemp({ bucket: 'cloud-design', key: [item.thumb.replace('http://store.palxp.com/', '')] })
+          await delPicForTemp({ bucket: 'cloud-design', key: [item.thumb.replace('http://store.palxp.com/', '').replace('https://design.palxp.com/', '')] })
           console.log('识别失败，删除封面');
         }
       }

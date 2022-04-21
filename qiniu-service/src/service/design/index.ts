@@ -3,7 +3,7 @@
  * @Date: 2021-12-31 11:09:30
  * @Description: Type: 0 模板，1 文字组件
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-03-30 16:37:31
+ * @LastEditTime: 2022-04-21 23:02:57
  * @site: book.palxp.com / blog.palxp.com
  */
 const func = require('../../utils/mysql.ts')
@@ -11,7 +11,7 @@ const user = require('./user.ts')
 // const fontmin = require('./utils/getFont.ts')
 const { prepareInit } = require('../qiniu/index.ts')
 const { QiNiu: QiNiuData } = require('../../configs.ts')
-const screenShotUrl = 'http://app.palxp.com:7001/api/screenshots?'
+const screenShotUrl = 'https://app.palxp.com:7002/api/screenshots?'
 const Img2QiNiu = require('../spider/utils/downUpdateImage.ts')
 
 function getQiNiuKey(url: string) {
