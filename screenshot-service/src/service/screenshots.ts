@@ -3,7 +3,7 @@
  * @Date: 2020-07-22 20:13:14
  * @Description:
  * @LastEditors: ShawnPhang
- * @LastEditTime: 2022-04-18 13:39:25
+ * @LastEditTime: 2022-04-22 10:25:14
  * @site: book.palxp.com / blog.palxp.com
  */
 const sql = require('../utils/widget/sql.ts')
@@ -35,7 +35,7 @@ module.exports = {
      * @apiParam {String} quality 可选, 质量
      */
     let { id, tempid, width, height, screenshot_url, type="file", size, quality } = req.query
-    const defaultUrl = 'http://sudo.palxp.com/draw'
+    const defaultUrl = 'https://sudo.palxp.com/draw'
     const url = (screenshot_url || defaultUrl) + `${id?'?id=':'?tempid='}`
     id = id || tempid
     const path = filePath + `${id}-screenshot.png`
